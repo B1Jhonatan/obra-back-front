@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 public class ElementoDTO {
 
     private Integer id;
-    private String tipo;
     private String elemento;
     private Integer cantidad;
     private Double largo;

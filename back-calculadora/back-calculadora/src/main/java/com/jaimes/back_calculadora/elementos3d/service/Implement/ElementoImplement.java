@@ -1,6 +1,7 @@
 package com.jaimes.back_calculadora.elementos3d.service.Implement;
 
 import com.jaimes.back_calculadora.constantes.Constantes;
+import com.jaimes.back_calculadora.elementos3d.service.dto.input.ElementoDTO;
 import com.jaimes.back_calculadora.elementos3d.service.dto.output.ElementoListaDTO;
 import com.jaimes.back_calculadora.entity.Elemento;
 import com.jaimes.back_calculadora.elementos3d.entity.Areas3D;
@@ -42,21 +43,47 @@ public class ElementoImplement implements ElementoService {
     }
 
     @Override
-    public Elemento guardarElemento(Elemento elemento) {
-        for (Elementos3D e3d : elemento.getElementos3D()) {
-            e3d.setElemento(elemento);
-            if (e3d.getMedidas() != null) {
-                e3d.getMedidas().setElemento3D(e3d);
-            }
-            if (e3d.getAreas() != null) {
-                e3d.getAreas().setElemento3D(e3d);
-            }
-        }
-        return elementoRepository.save(elemento);
+    public Elementos3D guardarElemento3d(ElementoDTO elementoDTO) {
+        Elemento elemento = elementoRepository.findById(elementoDTO.getId()).orElse(null);
+        Elementos3D elementos3D = new Elementos3D();
+        elementos3D.setElemento3D(elementoDTO.getElemento());
+        elementos3D.setCantidad(elementoDTO.getCantidad());
+        elementos3D.setElemento(elemento);
+        Medidas3D medidas3D = new Medidas3D();
+        medidas3D.setLargo(elementoDTO.getLargo());
+        medidas3D.setAncho(elementoDTO.getAncho());
+        medidas3D.setAlto(elementoDTO.getAlto());
+        medidas3D.setElemento3D(elementos3D);
+        elementos3D.setMedidas(medidas3D);
+        Areas3D areas3D = new Areas3D();
+        areas3D.setAreaUnidad(elementoDTO.getAreaUnidad());
+        areas3D.setAreaTotal(elementoDTO.getAreaTotal());
+        areas3D.setElemento3D(elementos3D);
+        elementos3D.setAreas(areas3D);
+        return elemento3dRepository.save(elementos3D);
     }
 
     @Override
-    public void eliminarElemento(Integer id) {
+    public Elementos3D actualizarElemento3d(ElementoDTO elementoDTO) {
+        Elementos3D elementos3D = elemento3dRepository.findById(elementoDTO.getId()).orElse(null);
+        elementos3D.setElemento3D(elementoDTO.getElemento());
+        elementos3D.setCantidad(elementoDTO.getCantidad());
+        Medidas3D medidas3D = elementos3D.getMedidas();
+        medidas3D.setLargo(elementoDTO.getLargo());
+        medidas3D.setAncho(elementoDTO.getAncho());
+        medidas3D.setAlto(elementoDTO.getAlto());
+        medidas3D.setElemento3D(elementos3D);
+        Areas3D areas3D = elementos3D.getAreas();
+        areas3D.setAreaUnidad(elementoDTO.getAreaUnidad());
+        areas3D.setAreaTotal(elementoDTO.getAreaTotal());
+        areas3D.setElemento3D(elementos3D);
+        elementos3D.setMedidas(medidas3D);
+        elementos3D.setAreas(areas3D);
+        return elemento3dRepository.save(elementos3D);
+    }
+
+    @Override
+    public void eliminarElemento3d(Integer id) {
         elemento3dRepository.deleteById(id);
     }
 

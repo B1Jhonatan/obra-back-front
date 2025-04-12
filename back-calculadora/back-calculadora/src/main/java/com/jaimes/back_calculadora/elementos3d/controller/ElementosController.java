@@ -1,14 +1,10 @@
 package com.jaimes.back_calculadora.elementos3d.controller;
 
-import com.jaimes.back_calculadora.elementos3d.service.dto.output.ElementoListaDTO;
-import com.jaimes.back_calculadora.entity.Elemento;
-import com.jaimes.back_calculadora.elementos3d.entity.Elementos3D;
+import com.jaimes.back_calculadora.elementos3d.service.dto.input.ElementoDTO;
 import com.jaimes.back_calculadora.elementos3d.service.ElementoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/elementos")
@@ -29,13 +25,18 @@ public class ElementosController {
     }
 
     @PostMapping("/guardar")
-    public ResponseEntity<?> guardar(@RequestBody Elemento elemento){
-        return ResponseEntity.ok(elementoService.guardarElemento(elemento));
+    public ResponseEntity<?> guardar(@RequestBody ElementoDTO elementoDTO){
+        return ResponseEntity.ok(elementoService.guardarElemento3d(elementoDTO));
+    }
+
+    @PostMapping("/actualizar")
+    public ResponseEntity<?> actualizar(@RequestBody ElementoDTO elementoDTO){
+        return ResponseEntity.ok(elementoService.actualizarElemento3d(elementoDTO));
     }
 
     @PostMapping("/eliminar/{id}")
     public ResponseEntity<String> elimirar (@PathVariable Integer id){
-        elementoService.eliminarElemento(id);
+        elementoService.eliminarElemento3d(id);
         return ResponseEntity.ok("Eliminado");
     }
 

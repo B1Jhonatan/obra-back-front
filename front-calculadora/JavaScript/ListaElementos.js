@@ -1,6 +1,6 @@
 // Nombre de la función corregido (tenías "listaElemetnos" con una 'm' faltante)
 function listaElementos() {
-  fetch("http://localhost:8080/elementos/todos")
+  fetch("http://localhost:8080/elementos/tipos")
     .then((response) => response.json())
     .then((data) => {
       const lista = document.getElementById("elementosdb");
