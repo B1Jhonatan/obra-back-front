@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medidas</title>
+    <script src="../JavaScript/Medidas.js"></script>
+    <script src="../JavaScript/Guardar.js"></script>
+    <script src="../JavaScript/ListaElementos.js"></script>
+    <link rel="stylesheet" href="../Css/index.css" />
+  </head>
+  <body>
+    <section class="calculadora">
+      <h1>CALCULADORA</h1>
+      <form id="form" class="formulario">
+        <div>
+          <h4>Tipo:</h4>
+          <select id="elementosdb">
+            <option value="">--Selecciona--</option>
+          </select>
+        </div>
+        <div>
+          <h4>Elemento:</h4>
+          <input
+            type="text"
+            id="elemento"
+            placeholder="Ingrese el nombre del objeto"
+            required
+          />
+        </div>
+        <div>
+          <h4>Largo:</h4>
+          <input
+            type="text"
+            id="largo"
+            placeholder="Ingrese el largo del objeto"
+            required
+          />
+        </div>
+        <div>
+          <h4>Ancho:</h4>
+          <input
+            type="text"
+            id="ancho"
+            placeholder="Ingrese el ancho del objeto"
+            required
+          />
+        </div>
+        <div>
+          <h4>Alto:</h4>
+          <input
+            type="text"
+            id="alto"
+            placeholder="Ingrese el alto del objeto"
+            required
+          />
+        </div>
+        <div>
+          <h4>Cantidad:</h4>
+          <input
+            type="text"
+            id="cantidad"
+            placeholder="Cantidad de objetos"
+            required
+          />
+        </div>
+        <div>
+          <h4>Resultado unidad:</h4>
+          <p id="resultadoArea">-</p>
+        </div>
+        <div>
+          <h4>Resultado total:</h4>
+          <p id="resultadoTodo">-</p>
+        </div>
+        <div>
+          <button type="button" class="boton" onclick="calcular()">
+            RESULTADO
+          </button>
+          <p id="guardado" class="guardado"></p>
+          <button type="button" class="boton" onclick="guardar()">
+            GUARDAR
+          </button>
+        </div>
+      </form>
+    </section>
+  </body>
+</html>
