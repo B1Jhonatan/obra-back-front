@@ -16,11 +16,9 @@ function calcular() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      medidas: {
-        largo: largo,
-        ancho: ancho,
-        alto: alto,
-      },
+      largo: largo,
+      ancho: ancho,
+      alto: alto,
       cantidad: cantidad,
     }),
   })

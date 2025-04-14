@@ -1,7 +1,10 @@
 package com.jaimes.back_calculadora.elementos3d.service.Implement;
 
 import com.jaimes.back_calculadora.constantes.Constantes;
+import com.jaimes.back_calculadora.elementos3d.repository.Area3dRepoository;
 import com.jaimes.back_calculadora.elementos3d.service.dto.input.ElementoDTO;
+import com.jaimes.back_calculadora.elementos3d.service.dto.input.MedidasDTO;
+import com.jaimes.back_calculadora.elementos3d.service.dto.output.AreasDTO;
 import com.jaimes.back_calculadora.elementos3d.service.dto.output.ElementoListaDTO;
 import com.jaimes.back_calculadora.entity.Elemento;
 import com.jaimes.back_calculadora.elementos3d.entity.Areas3D;
@@ -21,25 +24,28 @@ public class ElementoImplement implements ElementoService {
 
     private final ElementoRepository elementoRepository;
     private final Elemento3dRepository elemento3dRepository;
+    private final Area3dRepoository area3dRepoository;
 
     @Autowired
-    public ElementoImplement(ElementoRepository elementoRepository, Elemento3dRepository elemento3dRepository) {
+    public ElementoImplement(ElementoRepository elementoRepository,
+                             Elemento3dRepository elemento3dRepository,
+                             Area3dRepoository area3dRepoository) {
         this.elementoRepository = elementoRepository;
         this.elemento3dRepository = elemento3dRepository;
+        this.area3dRepoository = area3dRepoository;
     }
 
     @Override
-    public Areas3D area3D(Elementos3D elementos3D) {
-        Medidas3D medidas3D = elementos3D.getMedidas();
-        Areas3D areas3D = new Areas3D();
-        double areaUnidad = ((medidas3D.getLargo() * Constantes.METROS_A_MILIMETROS)
-                * (medidas3D.getAncho() * Constantes.METROS_A_MILIMETROS)
-                * (medidas3D.getAlto() * Constantes.METROS_A_MILIMETROS)
+    public AreasDTO area3D(MedidasDTO medidasDTO) {
+        AreasDTO areasDTO = new AreasDTO();
+        double areaUnidad = ((medidasDTO.getLargo() * Constantes.METROS_A_MILIMETROS)
+                * (medidasDTO.getAncho() * Constantes.METROS_A_MILIMETROS)
+                * (medidasDTO.getAlto() * Constantes.METROS_A_MILIMETROS)
                 / Constantes.MILIMETROS3_A_METROS3);
-        double areaTotal = areaUnidad * elementos3D.getCantidad();
-        areas3D.setAreaUnidad(areaUnidad);
-        areas3D.setAreaTotal(areaTotal);
-        return areas3D;
+        double areaTotal = areaUnidad * medidasDTO.getCantidad();
+        areasDTO.setAreaUnidad(areaUnidad);
+        areasDTO.setAreaTotal(areaTotal);
+        return areasDTO;
     }
 
     @Override
@@ -78,6 +84,7 @@ public class ElementoImplement implements ElementoService {
         areas3D.setAreaTotal(elementoDTO.getAreaTotal());
         areas3D.setElemento3D(elementos3D);
         elementos3D.setMedidas(medidas3D);
+        elementos3D.setMedidas(medidas3D);
         elementos3D.setAreas(areas3D);
         return elemento3dRepository.save(elementos3D);
     }
@@ -102,4 +109,5 @@ public class ElementoImplement implements ElementoService {
         }
         return elementoListaDTOS;
     }
+
 }
