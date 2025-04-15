@@ -1,18 +1,20 @@
 package com.jaimes.back_calculadora.elementos3d.service.Implement;
 
-import com.jaimes.back_calculadora.constantes.Constantes;
+import com.jaimes.back_calculadora.elementos3d.dto.output.Elemento3dDTO;
+import com.jaimes.back_calculadora.elementos3d.dto.output.TipoElementosDTO;
+import com.jaimes.back_calculadora.elementos3d.utilidades.Asignacion;
+import com.jaimes.back_calculadora.elementos3d.utilidades.Constantes;
 import com.jaimes.back_calculadora.elementos3d.repository.Area3dRepoository;
-import com.jaimes.back_calculadora.elementos3d.service.dto.input.ElementoDTO;
-import com.jaimes.back_calculadora.elementos3d.service.dto.input.MedidasDTO;
-import com.jaimes.back_calculadora.elementos3d.service.dto.output.AreasDTO;
-import com.jaimes.back_calculadora.elementos3d.service.dto.output.ElementoListaDTO;
-import com.jaimes.back_calculadora.entity.Elemento;
-import com.jaimes.back_calculadora.elementos3d.entity.Areas3D;
+import com.jaimes.back_calculadora.elementos3d.dto.input.ElementoDTO;
+import com.jaimes.back_calculadora.elementos3d.dto.input.MedidasDTO;
+import com.jaimes.back_calculadora.elementos3d.dto.output.AreasDTO;
+import com.jaimes.back_calculadora.elementos3d.dto.output.TipoListaDTO;
+import com.jaimes.back_calculadora.entity.Tipo;
 import com.jaimes.back_calculadora.elementos3d.entity.Elementos3D;
-import com.jaimes.back_calculadora.elementos3d.entity.Medidas3D;
 import com.jaimes.back_calculadora.elementos3d.repository.Elemento3dRepository;
 import com.jaimes.back_calculadora.elementos3d.repository.ElementoRepository;
 import com.jaimes.back_calculadora.elementos3d.service.ElementoService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,42 +52,15 @@ public class ElementoImplement implements ElementoService {
 
     @Override
     public Elementos3D guardarElemento3d(ElementoDTO elementoDTO) {
-        Elemento elemento = elementoRepository.findById(elementoDTO.getId()).orElse(null);
-        Elementos3D elementos3D = new Elementos3D();
-        elementos3D.setElemento3D(elementoDTO.getElemento());
-        elementos3D.setCantidad(elementoDTO.getCantidad());
-        elementos3D.setElemento(elemento);
-        Medidas3D medidas3D = new Medidas3D();
-        medidas3D.setLargo(elementoDTO.getLargo());
-        medidas3D.setAncho(elementoDTO.getAncho());
-        medidas3D.setAlto(elementoDTO.getAlto());
-        medidas3D.setElemento3D(elementos3D);
-        elementos3D.setMedidas(medidas3D);
-        Areas3D areas3D = new Areas3D();
-        areas3D.setAreaUnidad(elementoDTO.getAreaUnidad());
-        areas3D.setAreaTotal(elementoDTO.getAreaTotal());
-        areas3D.setElemento3D(elementos3D);
-        elementos3D.setAreas(areas3D);
+        Elementos3D elementos3D = Asignacion.elementos3dGuardar(elementoDTO);
         return elemento3dRepository.save(elementos3D);
     }
 
     @Override
     public Elementos3D actualizarElemento3d(ElementoDTO elementoDTO) {
-        Elementos3D elementos3D = elemento3dRepository.findById(elementoDTO.getId()).orElse(null);
-        elementos3D.setElemento3D(elementoDTO.getElemento());
-        elementos3D.setCantidad(elementoDTO.getCantidad());
-        Medidas3D medidas3D = elementos3D.getMedidas();
-        medidas3D.setLargo(elementoDTO.getLargo());
-        medidas3D.setAncho(elementoDTO.getAncho());
-        medidas3D.setAlto(elementoDTO.getAlto());
-        medidas3D.setElemento3D(elementos3D);
-        Areas3D areas3D = elementos3D.getAreas();
-        areas3D.setAreaUnidad(elementoDTO.getAreaUnidad());
-        areas3D.setAreaTotal(elementoDTO.getAreaTotal());
-        areas3D.setElemento3D(elementos3D);
-        elementos3D.setMedidas(medidas3D);
-        elementos3D.setMedidas(medidas3D);
-        elementos3D.setAreas(areas3D);
+        Elementos3D elementos3D = elemento3dRepository.findById(elementoDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Elemento3D no encontrado"));;
+        elementos3D = Asignacion.elementos3dActualizar(elementoDTO, elementos3D);
         return elemento3dRepository.save(elementos3D);
     }
 
@@ -100,14 +75,27 @@ public class ElementoImplement implements ElementoService {
     }
 
     @Override
-    public List<ElementoListaDTO> todosElementos() {
-        List<Elemento> elementosDb = elementoRepository.findAll();
-        List<ElementoListaDTO> elementoListaDTOS = new ArrayList<>();
-        for (Elemento e : elementosDb){
-            ElementoListaDTO dto = new ElementoListaDTO(e.getId(), e.getElemento());
-            elementoListaDTOS.add(dto);
+    public List<TipoListaDTO> todosTipos() {
+        List<Tipo> elementosDb = elementoRepository.findAll();
+        List<TipoListaDTO> tipoListaDTOS = new ArrayList<>();
+        for (Tipo e : elementosDb){
+            TipoListaDTO dto = new TipoListaDTO(e.getId(), e.getTipo());
+            tipoListaDTOS.add(dto);
         }
-        return elementoListaDTOS;
+        return tipoListaDTOS;
     }
 
+    @Override
+    public Elemento3dDTO unElemetnoById(Integer id) {
+        Elementos3D elementos3D = elemento3dRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontro el elemento"));
+        return Asignacion.convertirElemento3dDTO(elementos3D);
+    }
+
+    @Override
+    public TipoElementosDTO todosTipoElementos(Integer id) {
+        Tipo tipo = elementoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontro el elemento"));
+        return Asignacion.tipoElementosDTO(tipo);
+    }
 }

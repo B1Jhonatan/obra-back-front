@@ -1,7 +1,7 @@
 package com.jaimes.back_calculadora.elementos3d.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jaimes.back_calculadora.entity.Elemento;
+import com.jaimes.back_calculadora.entity.Tipo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,9 +23,9 @@ public class Elementos3D {
     private Integer cantidad;
 
     @ManyToOne
-    @JoinColumn(name = "elemento_id")
+    @JoinColumn(name = "tipo_id")
     @JsonIgnore
-    private Elemento elemento;
+    private Tipo tipo;
 
     @OneToOne(mappedBy = "elemento3D", cascade = CascadeType.ALL, orphanRemoval = true)
     private Medidas3D medidas;

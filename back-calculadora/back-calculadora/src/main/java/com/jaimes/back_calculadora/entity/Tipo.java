@@ -9,20 +9,20 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "Elementos")
+@Table(name = "Tipos")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Elemento {
+public class Tipo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Basic
-    private String elemento;
+    private String tipo;
 
-    @OneToMany(mappedBy = "elemento", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tipo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Elementos3D> elementos3D;
 
 }

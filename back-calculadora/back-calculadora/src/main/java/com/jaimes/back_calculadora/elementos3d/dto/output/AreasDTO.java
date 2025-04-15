@@ -1,4 +1,4 @@
-package com.jaimes.back_calculadora.elementos3d.service.dto.output;
+package com.jaimes.back_calculadora.elementos3d.dto.output;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

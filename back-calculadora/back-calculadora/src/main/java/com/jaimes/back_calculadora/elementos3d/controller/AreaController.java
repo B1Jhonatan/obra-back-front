@@ -1,7 +1,7 @@
 package com.jaimes.back_calculadora.elementos3d.controller;
 
 import com.jaimes.back_calculadora.elementos3d.service.ElementoService;
-import com.jaimes.back_calculadora.elementos3d.service.dto.input.MedidasDTO;
+import com.jaimes.back_calculadora.elementos3d.dto.input.MedidasDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
